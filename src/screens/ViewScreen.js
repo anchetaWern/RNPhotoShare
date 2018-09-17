@@ -1,126 +1,22 @@
 import React, { Component } from "react";
-import {
-  View,
-  Text,
-  TextInput,
-  ScrollView,
-  Dimensions,
-  Button,
-  Alert
-} from "react-native";
-
-import CardList from "../components/CardList";
-
-import { Provider } from "react-redux";
-import { createStore } from "redux";
-import reducers from "../reducers";
-
-import { addedCard } from "../actions";
-
-const store = createStore(reducers);
+import { View, Text } from "react-native";
 
 export default class ViewScreen extends Component {
-  static navigationOptions = ({ navigation }) => {
-    const { params } = navigation.state;
+  static navigationOptions = () => {
     return {
       title: "View Photos",
       headerTransparent: true,
-      headerTintColor: "#333",
-      headerRight: (
-        <Button
-          title="Unfollow"
-          color="#333"
-          onPress={() => params.unFollow()}
-        />
-      )
+      headerTintColor: "#333"
     };
-  };
-
-  state = {
-    subscribedToUsername: "",
-    isSubscribed: false
-  };
-
-  constructor(props) {
-    super(props);
-    this.pusher = null;
-    this.user_channel = null;
-  }
-
-  componentDidMount() {
-    const { navigation } = this.props;
-    navigation.setParams({ unFollow: this.unFollow });
-
-    this.pusher = navigation.getParam("pusher");
-  }
-
-  unFollow = () => {
-    this.pusher.unsubscribe(`private-user-${this.state.subscribedToUsername}`);
-    this.props.navigation.goBack();
   };
 
   render() {
     return (
-      <Provider store={store}>
-        <View style={styles.container}>
-          {!this.state.isSubscribed && (
-            <View style={styles.initialContent}>
-              <Text style={styles.mainText}>User to follow</Text>
-              <TextInput
-                style={styles.textInput}
-                onChangeText={subscribedToUsername =>
-                  this.setState({ subscribedToUsername })
-                }
-              >
-                <Text style={styles.textInputText}>
-                  {this.state.subscribedToUsername}
-                </Text>
-              </TextInput>
-
-              <View style={styles.buttonContainer}>
-                <Button
-                  title="Follow"
-                  color="#1083bb"
-                  onPress={this.followUser}
-                />
-              </View>
-            </View>
-          )}
-
-          {this.state.isSubscribed && (
-            <ScrollView>
-              <View style={styles.mainContent}>
-                <CardList />
-              </View>
-            </ScrollView>
-          )}
-        </View>
-      </Provider>
+      <View style={styles.container}>
+        <Text>View screen</Text>
+      </View>
     );
   }
-
-  followUser = () => {
-    this.setState({
-      isSubscribed: true
-    });
-
-    this.user_channel = this.pusher.subscribe(
-      `private-user-${this.state.subscribedToUsername}`
-    );
-
-    this.user_channel.bind("pusher:subscription_error", status => {
-      Alert.alert(
-        "Error occured",
-        "Cannot connect to Pusher. Please restart the app."
-      );
-    });
-
-    this.user_channel.bind("pusher:subscription_succeeded", () => {
-      this.user_channel.bind("client-posted-photo", data => {
-        store.dispatch(addedCard(data.id, data.url));
-      });
-    });
-  };
 }
 
 const styles = {

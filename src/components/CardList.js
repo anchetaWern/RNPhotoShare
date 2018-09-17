@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { FlatList, View, Text } from "react-native";
 import PropTypes from "prop-types";
 
-import { connect } from "react-redux";
 import Card from "./Card";
 
 class CardList extends Component {
@@ -46,8 +45,4 @@ CardList.propTypes = {
   cards: PropTypes.array.isRequired
 };
 
-const mapStateToProps = ({ cards }) => {
-  return cards;
-};
-
-export default connect(mapStateToProps)(CardList);
+export default CardList;
