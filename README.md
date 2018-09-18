@@ -40,14 +40,26 @@ componentDidMount() {
 }
 ```
 
-4. Install the server dependencies:
+4. Add your Imgur app ID on `src/screens/ShareScreen.js` file:
+
+```
+const response = await fetch("https://api.imgur.com/3/image", {
+	method: "POST",
+	headers: {
+	  Authorization: "Client-ID YOUR_IMGUR_APP_ID"
+	},
+	body: formData
+});
+```
+
+5. Install the server dependencies:
 
 ```
 cd server
 npm install
 ```
 
-5. Update the `.env` file:
+6. Update the `.env` file:
 
 ```
 APP_ID=YOUR_PUSHER_APP_ID
@@ -58,15 +70,15 @@ PORT=3000
 ```
 
 
-6. Run the server:
+7. Run the server:
 
 ```
 node server.js
 ```
 
-7. [Download ngrok executable file](https://dashboard.ngrok.com/get-started).
+8. [Download ngrok executable file](https://dashboard.ngrok.com/get-started).
 
-8. Expose server using ngrok:
+9. Expose server using ngrok:
 
 
 ```
@@ -74,9 +86,9 @@ node server.js
 ./ngrok http 3000
 ```
 
-9. Copy the ngrok https URL and update the `authEndpoint` in the `src/screens/HomeScreen.js` file.
+10. Copy the ngrok https URL and update the `authEndpoint` in the `src/screens/HomeScreen.js` file.
 
-10. Run the app and open it in your Expo client app:
+11. Run the app and open it in your Expo client app:
 
 ```
 expo start
