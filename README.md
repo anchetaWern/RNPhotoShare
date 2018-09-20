@@ -1,6 +1,8 @@
 # RNPhotoShare
 A sample React Native app showing how to use Imgur and Pusher to implement a realtime photo-sharing app
 
+Full tutorial is available at: [https://pusher.com/tutorials/photo-sharing-react-native](https://pusher.com/tutorials/photo-sharing-react-native)
+
 ### Prerequisites
 
 - React Native development environment or [Expo](https://expo.io/)
